@@ -14,15 +14,19 @@ public class ArbolSintactico<E> {
     }
 
     private Nodo<E> construir(String simbolo) {
+        Nodo<E> nodo = new Nodo<>((E) simbolo, gramatica.containsKey(simbolo) ? "no-terminal" : "terminal");
+
         if (!gramatica.containsKey(simbolo)) {
-            return new Nodo<>((E) simbolo, "terminal");
+            return nodo; // Es un símbolo terminal
         }
 
-        String[] produccion = gramatica.get(simbolo).get(0); // Primera producción
-        Nodo<E> nodo = new Nodo<>((E) simbolo, "no-terminal");
-
-        for (String s : produccion) {
-            nodo.agregarHijo(construir(s));
+        List<String[]> producciones = gramatica.get(simbolo);
+        for (String[] produccion : producciones) {
+            Nodo<E> produccionNodo = new Nodo<>((E) String.join(" ", produccion), "produccion");
+            for (String s : produccion) {
+                produccionNodo.agregarHijo(construir(s));
+            }
+            nodo.agregarHijo(produccionNodo);
         }
 
         return nodo;
