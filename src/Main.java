@@ -11,10 +11,8 @@ public class Main {
         String archivoGramatica = "Gramatica.txt";
         String simboloInicial = "";
 
-        // Paso 1 y 2: Leer el archivo y obtener el símbolo inicial
         try (BufferedReader br = new BufferedReader(new FileReader(archivoGramatica))) {
             String linea;
-            System.out.println("pase" );
             while ((linea = br.readLine()) != null) {
                 if (linea.contains("->")) {
                     simboloInicial = linea.split("->")[0].trim();

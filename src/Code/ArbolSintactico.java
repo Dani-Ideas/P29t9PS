@@ -23,7 +23,11 @@ public class ArbolSintactico<E> {
         List<String[]> producciones = gramatica.get(simbolo);
         for (String[] produccion : producciones) {
             Nodo<E> produccionNodo = new Nodo<>((E) String.join(" ", produccion), "produccion");
-            for (String s : produccion) {
+            for (int i = 0; i < produccion.length; i++) {
+                String s = produccion[i];
+                if (i == 0 && s.equals(simbolo)) {
+                    continue; // Omitir autorreferencia inmediata
+                }
                 produccionNodo.agregarHijo(construir(s));
             }
             nodo.agregarHijo(produccionNodo);
@@ -31,6 +35,8 @@ public class ArbolSintactico<E> {
 
         return nodo;
     }
+
+
 
     public void preorden(Nodo<E> n) {
         if (n != null) {
