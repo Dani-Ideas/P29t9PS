@@ -52,15 +52,18 @@ public class ArbolSintactico<E> {
     }
 
     public void imprimir() {
-        imprimirRecursivo(raiz, "", true);
+        imprimirRecursivo(raiz, "", true,false);
     }
 
-    private void imprimirRecursivo(Nodo<E> nodo, String prefijo, boolean esUltimo) {
+    private void imprimirRecursivo(Nodo<E> nodo, String prefijo, boolean esUltimo, boolean repetido) {
         if (nodo == null) return;
-        System.out.println(prefijo + (esUltimo ? "└── " : "├── ") + nodo.dato);
+        if (!repetido) {
+            System.out.println(prefijo + (esUltimo ? "└── " : "├── ") + nodo.dato);
+        }
         for (int i = 0; i < nodo.hijos.size(); i++) {
             boolean ultimo = (i == nodo.hijos.size() - 1);
-            imprimirRecursivo(nodo.hijos.get(i), prefijo + (esUltimo ? "    " : "│   "), ultimo);
+            repetido = nodo.hijos.get(0).dato.equals(nodo.dato);
+            imprimirRecursivo(nodo.hijos.get(i), prefijo + (esUltimo ? (repetido ? "":"    ") : "│   "), ultimo, repetido);
         }
     }
 
